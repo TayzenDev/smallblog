@@ -25,22 +25,10 @@ A demo is available at this URL: [Smallblog Demo](https://smallblog-demo.tayzen.
 
 ## Quickstart
 
-### With smallweb
-
-Just copy this command and smallweb will copy the template for you:
-
-```bash
-smallweb create --template=github.com/tayzendev/smallblog-template blog
-```
-
-From this template you should change some settings in the `main.ts` file.
-
-### Without Smallweb
-
-Create a new directory in your smallweb folder, add a `main.tsx` and paste this content in it:
+Create a new directory in your smallweb folder (or in any folder where you want to host the Deno project), add a `main.tsx` and paste this content in it:
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.0";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
 
 export default new Smallblog();
 ```
@@ -166,17 +154,7 @@ These new pages are accessible from the navbar (as you can see in the screenshot
 - Cloning this repo: If you want to customize the look and feel of your blog.
 - Using Deno deploy: If you want the most efficient, yet simple deployment of smallblog, you can simply use Deno deploy.
 
-### Method 1: Using Smallweb
-
-Just copy this command and Smallweb will copy the template for you:
-
-```bash
-smallweb create --template=github.com/tayzendev/smallblog-template blog
-```
-
-From this template you should change some settings in the `main.ts` file.
-
-### Method 2: JSR import
+### Method 1: JSR import
 
 1. In your smallweb folder create a new folder (a.k.a. subdomain).
 2. In this folder add a `main.tsx` file
@@ -187,7 +165,7 @@ From this template you should change some settings in the `main.ts` file.
 Minimal `main.tsx` to quick-start a project (as shown above):
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.0";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
 
 export default new Smallblog();
 ```
@@ -196,7 +174,7 @@ A `main.tsx` with more parameters:
 
 ```tsx
 import { html } from "hono/html";
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.0";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
 
 const customBodyScript = await html`<script
   defer
@@ -217,7 +195,7 @@ export default new Smallblog({
 
 Please refer to the [documentation](https://jsr.io/@tayzendev/smallblog/doc/~/BlogAppOptions) for more details about the parameters.
 
-### Method 3: Cloning the repo
+### Method 2: Cloning the repo
 
 1. Go to your smallweb folder: `cd /path/to/your/smallweb/folder`
 2. Clone the repo with the folder name you want: `git clone https://github.com/TayzenDev/smallblog.git folder_name`
@@ -230,7 +208,7 @@ To help you edit what you want, this is an overview of the code organization:
 - To look at the "business logic", you can check the file `blog.ts`
 - The hono server and blog creation function are located in the `mod.ts`, `server.tsx` and `cli.ts` files.
 
-### Method 4: Deno deploy
+### Method 3: Deno deploy
 
 To install Smallblog using deno deploy, you just have to run `deployctl deploy --prod` in your blog's folder.
 

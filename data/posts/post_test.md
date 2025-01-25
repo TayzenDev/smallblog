@@ -11,6 +11,8 @@ tags:
 date: 2024-11-26
 ---
 
+This post is used to visualize the render of the markdown syntax if you are in the blog directly. If you are reading this from a RSS reader, the rendering will be simpler to accommodate most readers, so each of the elements will not be the smae.
+
 Esse sit culpa id ut ex in magna incididunt duis sint. Officia do ipsum aliquip
 irure tempor adipisicing. Elit do ipsum fugiat proident irure et in
 reprehenderit commodo excepteur aliquip. Labore mollit et ut enim anim ad

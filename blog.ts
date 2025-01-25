@@ -125,11 +125,12 @@ export function getRSS(baseUrl: string, articles: Article[]) {
   for (const article of articles) {
     feed.item({
       title: article.title,
-      description: article.html,
+      description: article.metadata.description,
       url: new URL(article.url, baseUrl).href,
       date: article.metadata.date,
       categories: article.metadata.tags,
       author: article.metadata.authors?.join(", "),
+      custom_elements: [{ "content:encoded": article.htmlRss }],
     });
   }
   return feed.xml();
@@ -249,7 +250,9 @@ export class Metadata {
 }
 
 function convertNameToLabel(name: string) {
-  const nameWithoutStartingUnderscore = name.startsWith("_") ? name.slice(1) : name;
+  const nameWithoutStartingUnderscore = name.startsWith("_")
+    ? name.slice(1)
+    : name;
   const nameWithSpace = nameWithoutStartingUnderscore.split("_").join(" ");
   return nameWithSpace.charAt(0).toUpperCase() + nameWithSpace.slice(1);
 }
@@ -269,7 +272,10 @@ function removingTitleFromMD(markdown: string): ClearedMarkdown {
   if (titlePosition === undefined || titlePosition < 0) {
     return { body: markdown };
   }
-  return { title: titleMatched[0].substring(2), body: markdown.substring(titlePosition + titleMatched[0].length) };
+  return {
+    title: titleMatched[0].substring(2),
+    body: markdown.substring(titlePosition + titleMatched[0].length),
+  };
 }
 
 type ParsedMarkdown = {
@@ -296,12 +302,12 @@ function parseMd(
       title,
     };
   }
-  const metadata = new Metadata(filePath, {}, defaultAuthors)
+  const metadata = new Metadata(filePath, {}, defaultAuthors);
   const { title, body } = removingTitleFromMD(markdownData);
   return {
-    metadata ,
+    metadata,
     body: body.trim(),
-    title
+    title,
   };
 }
 
@@ -310,8 +316,22 @@ function customRender(text: string, noLinks: boolean = false) {
     disableHtmlSanitization: true,
     allowIframes: true,
     allowMath: true,
-    liteYTEmbed: true,
+    youtubeHandling: "lite",
+    mermaid: true,
     noLinks,
+  });
+}
+
+function rssRender(text: string) {
+  return render(text, {
+    disableHtmlSanitization: true,
+    allowIframes: true,
+    allowMath: false,
+    youtubeHandling: "link",
+    githubSlugger: false,
+    mermaid: false,
+    alerts: false,
+    svgCheckboxes: false,
   });
 }
 
@@ -321,6 +341,7 @@ export class Article {
   content: string;
   preview: string;
   html: string;
+  htmlRss: string;
   metadata: Metadata;
   url: string;
   timeToReadMinutes: number | string;
@@ -336,16 +357,17 @@ export class Article {
     metadata?: Metadata,
     timeToReadMinutes?: number | string,
   ) {
-    const { metadata: parsedMetadata, body: cleanedContent, title: h1Title } = parseMd(
-      content,
-      path.join(postsFolder, name + ".md"),
-      defaultAuthors,
-    );
+    const {
+      metadata: parsedMetadata,
+      body: cleanedContent,
+      title: h1Title,
+    } = parseMd(content, path.join(postsFolder, name + ".md"), defaultAuthors);
 
     this.metadata = metadata || parsedMetadata;
     this.name = name;
     this.content = content;
-    this.title = title || this.metadata.title || h1Title || convertNameToLabel(name);
+    this.title =
+      title || this.metadata.title || h1Title || convertNameToLabel(name);
     this.preview = this.metadata.preview
       ? customRender(this.metadata.preview, true)
       : customRender(
@@ -355,6 +377,7 @@ export class Article {
           true,
         );
     this.html = html || customRender(cleanedContent);
+    this.htmlRss = rssRender(`# ${this.title}\n\n` + cleanedContent);
     this.url = path.join("/", routeBase, this.name);
     this.timeToReadMinutes =
       timeToReadMinutes || estimateTimeReadingMinutes(cleanedContent);

@@ -4,12 +4,14 @@
     "jsr:@denosaurs/emoji@0.3": "0.3.1",
     "jsr:@libs/typing@3": "3.1.0",
     "jsr:@libs/xml@*": "6.0.0",
-    "jsr:@libs/xml@6": "6.0.0",
+    "jsr:@libs/xml@6": "6.0.1",
     "jsr:@smallweb/types@0.1": "0.1.0",
     "jsr:@std/collections@^1.0.5": "1.0.9",
     "jsr:@std/front-matter@^1.0.5": "1.0.5",
     "jsr:@std/fs@^1.0.5": "1.0.5",
-    "jsr:@std/media-types@^1.0.3": "1.0.3",
+    "jsr:@std/html@1.0.3": "1.0.3",
+    "jsr:@std/http@1.0.12": "1.0.12",
+    "jsr:@std/media-types@^1.0.3": "1.1.0",
     "jsr:@std/path@*": "1.0.8",
     "jsr:@std/path@^1.0.6": "1.0.8",
     "jsr:@std/path@^1.0.7": "1.0.8",
@@ -17,7 +19,7 @@
     "jsr:@std/toml@^1.0.1": "1.0.1",
     "jsr:@std/yaml@*": "1.0.5",
     "jsr:@std/yaml@^1.0.5": "1.0.5",
-    "jsr:@tayzendev/gfm@~0.15.26": "0.15.26",
+    "jsr:@tayzendev/gfm@0.16": "0.16.0",
     "npm:@types/node@*": "22.5.4",
     "npm:commander@^12.1.0": "12.1.0",
     "npm:github-slugger@2": "2.0.0",
@@ -50,6 +52,9 @@
         "jsr:@libs/typing"
       ]
     },
+    "@libs/xml@6.0.1": {
+      "integrity": "64af4f93464c77c3e1158fb97c3657779ca554b14f38616b96cde31e22d8a309"
+    },
     "@smallweb/types@0.1.0": {
       "integrity": "eae1f09cc954c18129dea767a2165e70ae1cf50f8f52bb4112ed81299eb6eb9d"
     },
@@ -69,8 +74,17 @@
         "jsr:@std/path@^1.0.7"
       ]
     },
+    "@std/html@1.0.3": {
+      "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
+    },
+    "@std/http@1.0.12": {
+      "integrity": "85246d8bfe9c8e2538518725b158bdc31f616e0869255f4a8d9e3de919cab2aa"
+    },
     "@std/media-types@1.0.3": {
       "integrity": "b12d30a7852f7578f4d210622df713bbfd1cbdd9b4ec2eaf5c1845ab70bab159"
+    },
+    "@std/media-types@1.1.0": {
+      "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
     },
     "@std/path@1.0.6": {
       "integrity": "ab2c55f902b380cf28e0eec501b4906e4c1960d13f00e11cfbcd21de15f18fed"
@@ -90,8 +104,8 @@
     "@std/yaml@1.0.5": {
       "integrity": "71ba3d334305ee2149391931508b2c293a8490f94a337eef3a09cade1a2a2742"
     },
-    "@tayzendev/gfm@0.15.26": {
-      "integrity": "94d3b333fa4234d2b7001e1346ba3d7a3f5973a37cbfe7d840ec688f1817581f",
+    "@tayzendev/gfm@0.16.0": {
+      "integrity": "c36c8d4b7b23d80af0c8835adf0db4d440e8ac194106a9cc2563613d761823c8",
       "dependencies": [
         "jsr:@denosaurs/emoji",
         "jsr:@std/media-types",
@@ -237,8 +251,8 @@
     "picocolors@1.1.1": {
       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
     },
-    "postcss@8.4.47": {
-      "integrity": "sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==",
+    "postcss@8.4.49": {
+      "integrity": "sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==",
       "dependencies": [
         "nanoid",
         "picocolors",
@@ -316,7 +330,7 @@
       "jsr:@std/media-types@^1.0.3",
       "jsr:@std/path@^1.0.6",
       "jsr:@std/yaml@^1.0.5",
-      "jsr:@tayzendev/gfm@~0.15.26",
+      "jsr:@tayzendev/gfm@0.16",
       "npm:commander@^12.1.0",
       "npm:hono@^4.6.3",
       "npm:minisearch@^7.1.0",

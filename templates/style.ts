@@ -6,7 +6,7 @@ export const style = html`
   <style>
     :root {
       --color-text: #bfc7d5;
-      --color-caution-alert: #FF5263;
+      --color-caution-alert: #ff5263;
     }
 
     main {
@@ -472,21 +472,21 @@ export const style = html`
       padding: 0 1em;
     }
 
-    .markdown-body ul:has(input[type="checkbox"]) {
+    .markdown-body ul:has(li[role="checkbox"]) {
       list-style-type: none;
       padding-left: 1em;
     }
 
-    .markdown-body li:has(input[type="checkbox"]) label {
+    .markdown-body li[role="checkbox"] label {
       display: flex;
       align-items: center;
       gap: 0.4em; /* Space between the icon and text */
     }
 
-    .markdown-body li:has(input[type="checkbox"]) svg {
-      width: 1em;
-      height: 1em;
-      vertical-align: middle;
+    .markdown-body li[role="checkbox"] svg {
+      width: 1.1em;
+      height: 1.1em;
+      vertical-align: sub;
     }
 
     .markdown-body table {
@@ -590,7 +590,9 @@ export const style = html`
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
     }
 
-    .markdown-body .markdown-alert.markdown-alert-caution .markdown-alert-title {
+    .markdown-body
+      .markdown-alert.markdown-alert-caution
+      .markdown-alert-title {
       color: var(--color-caution-alert);
     }
 
