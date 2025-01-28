@@ -10,7 +10,7 @@
     "@std/media-types": "jsr:@std/media-types@^1.0.3",
     "@std/path": "jsr:@std/path@^1.0.6",
     "@std/yaml": "jsr:@std/yaml@^1.0.5",
-    "@tayzendev/gfm": "jsr:@tayzendev/gfm@^0.16.0",
+    "@tayzendev/gfm": "jsr:@tayzendev/gfm@^0.16.2",
     "commander": "npm:commander@^12.1.0",
     "hono": "npm:hono@^4.6.3",
     "minisearch": "npm:minisearch@^7.1.0",
