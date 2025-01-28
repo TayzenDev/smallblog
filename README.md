@@ -28,7 +28,7 @@ A demo is available at this URL: [Smallblog Demo](https://smallblog-demo.tayzen.
 Create a new directory in your smallweb folder (or in any folder where you want to host the Deno project), add a `main.tsx` and paste this content in it:
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
 
 export default new Smallblog();
 ```
@@ -165,7 +165,7 @@ These new pages are accessible from the navbar (as you can see in the screenshot
 Minimal `main.tsx` to quick-start a project (as shown above):
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
 
 export default new Smallblog();
 ```
@@ -174,7 +174,7 @@ A `main.tsx` with more parameters:
 
 ```tsx
 import { html } from "hono/html";
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.1";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
 
 const customBodyScript = await html`<script
   defer

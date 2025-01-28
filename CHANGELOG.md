@@ -15,11 +15,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## 1.2.2 - 2025-01-28
+
+### Added
+
+- New bright theme and theme switcher (+ automatic theme detection)
+
+### Fixed
+
+- Fix for the Youtube renderer for the RSS feed (links are working, no iframe anymore)
+
 ## 1.2.1 - 2025-01-25
 
 ### Fixed
 
-- Fixing HTML rendering for many clients
+- Fixing HTML rendering for many RSS clients
 
 ## 1.2.0 - 2024-11-26
 

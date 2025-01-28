@@ -42,3 +42,32 @@ export const scriptAddCodeCopyButton = html`<script defer>
       });
   });
 </script>`;
+
+export const scriptThemeSwitch = html`<script type="module">
+  const toggleButton = document.getElementById("theme-toggle");
+  const body = document.body;
+  console.log("body:", body);
+
+  toggleButton.addEventListener("click", () => {
+    const currentTheme = body.getAttribute("data-color-mode");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    body.setAttribute("data-color-mode", newTheme);
+
+    // Save the preference to localStorage
+    localStorage.setItem("theme", newTheme);
+  });
+
+  // Load theme from localStorage on page load
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    body.setAttribute("data-color-mode", savedTheme);
+  } else {
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    document.body.setAttribute(
+      "data-color-mode",
+      prefersDark ? "dark" : "light",
+    );
+  }
+</script>`;

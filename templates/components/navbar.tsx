@@ -39,6 +39,9 @@ export const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
             <RssIcon /> RSS
           </a>
         </li>
+        <li>
+          <button id="theme-toggle"></button>
+        </li>
       </ul>
     </navbar>
   );

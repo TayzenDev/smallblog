@@ -4,6 +4,7 @@ import type { Child, FC } from "hono/jsx";
 import { CSS, KATEX_CSS } from "@tayzendev/gfm";
 import { Navbar } from "./navbar.tsx";
 import { style } from "../style.ts";
+import { scriptThemeSwitch } from "../scripts.ts";
 import type { Article } from "../../blog.ts";
 
 type LayoutProps = {
@@ -175,6 +176,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
             href={faviconLink || "/favicon"}
           />
         )}
+        {scriptThemeSwitch}
         {headScript}
       </head>
       <body
@@ -182,7 +184,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         data-light-theme="light"
         data-dark-theme="dark"
         hx-ext="head-support"
-        style="background-color: #27293C; color: #BFC7D5;"
       >
         {bodyScript}
         <Navbar title={siteTitle} customPages={customPages} />

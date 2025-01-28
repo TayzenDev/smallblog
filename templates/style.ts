@@ -4,9 +4,114 @@ import { html } from "hono/html";
 
 export const style = html`
   <style>
-    :root {
+    [data-color-mode="dark"] {
       --color-text: #bfc7d5;
+      --color-bg-default: #27293c;
+      --color-title: #bfc7d5;
+      --color-no-articles-button: #4c527d;
+      --color-hr: rgba(132, 141, 151, 0.1);
+
+      /* Search */
+      --color-search-field: #2b2f42;
+      --color-search-field-placeholder: #7b8092;
+
+      /* Metadata */
+      --color-metadata: #999aa5;
+
+      /* Posts */
+      --color-quote: #999aa5;
+
+      /* Alerts */
+      --color-note-alert: #4493f8;
+      --color-tip-alert: #3fb950;
+      --color-important-alert: #ab7df8;
+      --color-warning-alert: #d29922;
       --color-caution-alert: #ff5263;
+
+      /* Table */
+      --color-table: #d1d2e2;
+      --color-table-header: #4c527d;
+      --color-table-header-text: #ffffff;
+      --color-table-row-even: #3e415f;
+      --color-table-row-odd: #2a2d40;
+      --color-table-row-hover: #505377;
+      --color-table-border: #2a2b3a;
+
+      /* Copy code button */
+      --color-copy-code-button: #161b22;
+      --color-copy-code-button-hover: #262c36;
+
+      /* Octicon link */
+      --color-octicon-link: #bfc7d5;
+
+      /* Switch icon */
+      --icon-switch-theme: "🌝";
+    }
+
+    [data-color-mode="light"] {
+      --color-bg-default: #ffefce;
+      --color-fg-default: #5c482e !important;
+      --color-fg-muted: #000 !important;
+      --color-text: #352e1c;
+      --color-title: #cf7041;
+      --color-no-articles-button: #43281c;
+      --color-hr: #a497702e;
+
+      /* Search */
+      --color-search-field: #fff;
+      --color-search-field-placeholder: #7b8092;
+
+      /* Metadata */
+      --color-metadata: #8f6540;
+
+      /* Posts */
+      --color-quote: #8f6540;
+      --color-border-default: #a497702e !important;
+      --color-canvas-subtle: #fff4e9 !important;
+
+      /* Alerts */
+      --color-note-alert: #004dff;
+      --color-tip-alert: #006f1d;
+      --color-important-alert: #8000ff;
+      --color-warning-alert: #804a00;
+      --color-caution-alert: #db0000;
+
+      /* Table */
+      --color-table: #4f4c4a;
+      --color-table-header: #ffb13e;
+      --color-table-header-text: #000;
+      --color-table-row-even: #ffe7b5;
+      --color-table-row-odd: #fff4e9;
+      --color-table-row-hover: #f5cd81;
+      --color-table-border: #2a2b3a;
+
+      /* Copy code button */
+      --color-copy-code-button: #fff4e9;
+      --color-copy-code-button-hover: #eae1d8;
+
+      /* Octicon link */
+      --color-octicon-link: #bfc7d5;
+
+      /* Switch icon */
+      --icon-switch-theme: "🌚";
+    }
+
+    #theme-toggle {
+      visibility: hidden;
+    }
+
+    #theme-toggle::after {
+      content: var(--icon-switch-theme);
+      visibility: visible;
+      cursor: pointer;
+    }
+
+    body {
+      background-color: var(--color-bg-default);
+      color: var(--color-text);
+      transition:
+        background-color 0.5s,
+        color 0.5s;
     }
 
     main {
@@ -163,9 +268,9 @@ export const style = html`
       width: 75%;
       border: 1px solid var(--color-fg-muted);
       border-radius: 0.5em;
-      background-color: #2b2f42;
+      background-color: var(--color-search-field);
       padding: 14px;
-      transition: all 0.3s ease;
+      transition: border 0.2s linear;
       margin: 0 auto;
       margin-bottom: 4em;
       color: var(--color-text);
@@ -188,7 +293,7 @@ export const style = html`
     }
 
     .search-field::placeholder {
-      color: #7b8092;
+      color: var(--color-search-field-placeholder);
     }
 
     .delete-button {
@@ -212,14 +317,14 @@ export const style = html`
 
     .search-container:hover {
       border: 4px double var(--color-fg-muted);
-      padding: 11px;
+      /* padding: 11px; */
     }
 
     .search-container:focus-within {
       border: 4px double var(--color-fg-muted);
       outline: none;
       background-color: var(--color-bg-default);
-      padding: 11px;
+      /* padding: 11px; */
     }
 
     .no-articles {
@@ -244,7 +349,7 @@ export const style = html`
       display: block;
       max-width: 300px;
       height: 25px;
-      background: #4c527d;
+      background: var(--color-no-articles-button);
       padding: 10px;
       text-align: center;
       border-radius: 5px;
@@ -324,9 +429,9 @@ export const style = html`
     .article-element hr {
       margin-top: 3em;
       width: 75%;
-      color: rgba(132, 141, 151, 0.1);
-      border-color: rgba(132, 141, 151, 0.1);
-      background-color: rgba(132, 141, 151, 0.1);
+      color: var(--color-hr);
+      border-color: var(--color-hr);
+      background-color: var(--color-hr);
     }
 
     .article-title {
@@ -370,7 +475,7 @@ export const style = html`
     .metadata span {
       margin-right: 0.5em;
       font-style: italic;
-      color: #999aa5;
+      color: var(--color-metadata);
     }
 
     .metadata span::after {
@@ -400,7 +505,7 @@ export const style = html`
     }
 
     .article-element .tags {
-      color: #999aa5;
+      color: var(--color-metadata);
       margin-top: 0.3em;
       display: inline-block;
     }
@@ -414,12 +519,12 @@ export const style = html`
     .article-element .tags .tag {
       font-size: 1.2em;
       margin-right: 0.6em;
-      color: #999aa5;
+      color: var(--color-metadata);
       text-decoration: underline;
     }
 
     .metadata a {
-      color: #999aa5;
+      color: var(--color-metadata);
     }
 
     .animated-anchor:hover {
@@ -467,8 +572,8 @@ export const style = html`
     }
 
     .markdown-body blockquote {
-      color: #999aa5;
-      border-left: 0.25em solid #999aa5;
+      color: var(--color-quote);
+      border-left: 0.25em solid var(--color-quote);
       padding: 0 1em;
     }
 
@@ -491,7 +596,7 @@ export const style = html`
 
     .markdown-body table {
       border-collapse: collapse;
-      color: #d1d2e2;
+      color: var(--color-table);
       border-radius: 6px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
     }
@@ -500,25 +605,25 @@ export const style = html`
     .markdown-body td {
       padding: 12px;
       text-align: left;
-      border: 1px solid #2a2b3a;
+      border: 1px solid var(--color-table-border);
     }
 
     .markdown-body th {
-      background-color: #4c527d;
+      background-color: var(--color-table-header);
       font-weight: bold;
-      color: #ffffff;
+      color: var(--color-table-header-text);
     }
 
     .markdown-body tr:nth-child(even) td {
-      background-color: #3e415f;
+      background-color: var(--color-table-row-even);
     }
 
     .markdown-body tr:nth-child(odd) td {
-      background-color: #2a2d40;
+      background-color: var(--color-table-row-odd);
     }
 
     .markdown-body tr:hover td {
-      background-color: #505377;
+      background-color: var(--color-table-row-hover);
     }
 
     p:has(img) {
@@ -531,7 +636,7 @@ export const style = html`
     }
 
     .octicon-link {
-      fill: #bfc7d5;
+      fill: var(--color-octicon-link);
     }
 
     .markdown-body .copy-code-button {
@@ -542,14 +647,14 @@ export const style = html`
       border: none;
       padding: 5px;
       border-radius: 5px;
-      background-color: #161b22;
+      background-color: var(--color-copy-code-button);
       white-space: normal;
       cursor: pointer;
       color: var(--color-fg-muted);
     }
 
     .markdown-body .copy-code-button:hover {
-      background-color: #262c36;
+      background-color: var(--color-copy-code-button-hover);
     }
 
     .markdown-body .highlight:has(.copy-code-button) {
@@ -598,6 +703,42 @@ export const style = html`
 
     .markdown-body .markdown-alert.markdown-alert-caution {
       border-left-color: var(--color-caution-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-note .markdown-alert-title {
+      color: var(--color-note-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-note {
+      border-left-color: var(--color-note-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-tip .markdown-alert-title {
+      color: var(--color-tip-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-tip {
+      border-left-color: var(--color-tip-alert);
+    }
+
+    .markdown-body
+      .markdown-alert.markdown-alert-important
+      .markdown-alert-title {
+      color: var(--color-important-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-important {
+      border-left-color: var(--color-important-alert);
+    }
+
+    .markdown-body
+      .markdown-alert.markdown-alert-warning
+      .markdown-alert-title {
+      color: var(--color-warning-alert);
+    }
+
+    .markdown-body .markdown-alert.markdown-alert-warning {
+      border-left-color: var(--color-warning-alert);
     }
 
     .markdown-body a[data-footnote-backref] {
