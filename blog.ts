@@ -136,11 +136,11 @@ export function getRSS(baseUrl: string, articles: Article[]) {
   return feed.xml();
 }
 
-export function getSitemap(baseUrl: string, articles: Article[]) {
+export function getSitemap(baseUrl: string, urls: string[]) {
   const sitemap: Sitemap = new Sitemap(baseUrl);
 
-  for (const article of articles) {
-    sitemap.add(article.url, {
+  for (const url of urls) {
+    sitemap.add(url, {
       changefreq: "weekly",
       priority: 1,
     });
@@ -181,10 +181,8 @@ type MetadataProps = {
   tags?: string | string[];
   date?: Date;
   modificationDate?: Date;
-  redirect?: string;
   preview?: string;
   section?: string;
-  order?: number;
 };
 
 export class Metadata {
@@ -194,10 +192,8 @@ export class Metadata {
   tags?: string[];
   date?: Date;
   modificationDate?: Date;
-  redirect?: string;
   preview?: string;
   section?: string;
-  order?: number;
 
   constructor(
     filePath: string,
@@ -210,10 +206,8 @@ export class Metadata {
       tag,
       date,
       modificationDate,
-      redirect,
       preview,
       section,
-      order,
     }: MetadataProps,
     defaultAuthors?: string[],
   ) {
@@ -242,10 +236,8 @@ export class Metadata {
 
     this.date = date || fileStats?.birthtime || undefined;
     this.modificationDate = modificationDate || fileStats?.mtime || undefined;
-    this.redirect = redirect;
     this.preview = preview;
     this.section = section;
-    this.order = order;
   }
 }
 

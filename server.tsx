@@ -25,22 +25,18 @@ import type { SmallblogConfig } from "./types.ts";
 export function createServer(config: SmallblogConfig) {
   const server = new Hono();
 
-  const postsRoute = path.basename(path.join("/", config.postsFolder));
   const faviconIsUrl = isUrl(config.favicon || "");
 
-  const customPages = getArticles(config.pagesFolder, "/")
-    .map((article) => ({
-      name: article.title,
-      path: article.metadata?.redirect || article.url,
-      external: !!article.metadata?.redirect,
-      order: article.metadata?.order || Infinity,
-    }))
-    .sort((a, b) => {
-      if (a?.order && b?.order) {
-        return a?.order - b?.order;
-      }
-      return -1;
-    });
+  const postsFolder = path.join(config.dataFolder, config.postsFolder);
+
+  const customPages = config.nav?.map((entry, index) => {
+    return {
+      ...entry,
+      external:
+        entry.path.startsWith("http://") || entry.path.startsWith("https://"),
+      order: index,
+    };
+  });
 
   server.use(compress());
 
@@ -48,11 +44,7 @@ export function createServer(config: SmallblogConfig) {
     const page = c.req.query("page") || 1;
     const search = c.req.query("search") || "";
     const itemsPerPage = 5;
-    const posts = getArticles(
-      config.postsFolder,
-      undefined,
-      config.defaultAuthors,
-    );
+    const posts = getArticles(postsFolder, undefined, config.defaultAuthors);
 
     const filteredPosts = filterArticlesFTS(posts, search);
 
@@ -89,7 +81,7 @@ export function createServer(config: SmallblogConfig) {
           locale={config.locale}
           description={config.siteDescription}
           noArticlesMessage={await getNoArticlesMessage(config)}
-          noPosts={isPostsFolderEmpty(config.postsFolder)}
+          noPosts={isPostsFolderEmpty(postsFolder)}
           bodyScript={config.customBodyScript}
           headScript={config.customHeaderScript}
           favicon={!!config.favicon}
@@ -100,34 +92,9 @@ export function createServer(config: SmallblogConfig) {
     );
   });
 
-  server.get(path.join(postsRoute, ":filename{.+$}"), (c) => {
-    const filename = c.req.param("filename");
-
-    if (!filename) {
-      // if the route is /posts/
-      return new Response("Not found", { status: 404 });
-    }
-    if (path.extname(filename)) {
-      // if the name contains an ext this is not an article
-      return serveStaticFile(filename, config.postsFolder);
-    }
-    return servePage(
-      c,
-      filename,
-      config.postsFolder,
-      faviconIsUrl,
-      customPages,
-      config,
-    );
-  });
-
   server.get("/rss.xml", (c) => {
     const baseUrl = getBaseUrl(c);
-    const articles = getArticles(
-      config.postsFolder,
-      undefined,
-      config.defaultAuthors,
-    );
+    const articles = getArticles(postsFolder, undefined, config.defaultAuthors);
     const xml = getRSS(baseUrl, articles);
     return new Response(xml, {
       headers: {
@@ -138,15 +105,15 @@ export function createServer(config: SmallblogConfig) {
 
   server.get("/sitemap.xml", (c) => {
     const baseUrl = getBaseUrl(c);
-    const articles = getArticles(
-      config.postsFolder,
-      undefined,
-      config.defaultAuthors,
+    const articles = getArticles(postsFolder, undefined, config.defaultAuthors);
+    const xml = getSitemap(
+      baseUrl,
+      articles
+        .map((e) => e.url)
+        .concat(
+          customPages?.filter((e) => !e.external).map((e) => e.path) || [],
+        ),
     );
-    const customPages = getArticles(config.pagesFolder, "/").filter(
-      (page) => !!page?.metadata?.redirect !== true,
-    );
-    const xml = getSitemap(baseUrl, articles.concat(customPages));
     if (xml) {
       return new Response(xml, {
         headers: {
@@ -177,10 +144,9 @@ export function createServer(config: SmallblogConfig) {
   });
 
   server.get("/init", async (c) => {
-    fs.ensureDirSync(config.postsFolder);
-    fs.ensureDirSync(config.pagesFolder);
-    if (await isDirectoryEmpty(config.postsFolder)) {
-      storeArticle(config.postsFolder, "first-article.md", {
+    fs.ensureDirSync(postsFolder);
+    if (await isDirectoryEmpty(postsFolder)) {
+      storeArticle(postsFolder, "first-article.md", {
         title: "My first article",
       });
     }
@@ -197,12 +163,16 @@ export function createServer(config: SmallblogConfig) {
     }
     if (path.extname(filename)) {
       // if the name contains an ext this is not an article
-      return serveStaticFile(filename, config.pagesFolder);
+      return serveStaticFile(filename, config.dataFolder);
     }
+
+    const basename = path.basename(filename);
+    const dirname = path.dirname(filename);
+
     return servePage(
       c,
-      filename,
-      config.pagesFolder,
+      basename,
+      path.join(config.dataFolder, dirname),
       faviconIsUrl,
       customPages,
       config,
@@ -343,13 +313,13 @@ function serveStaticFile(name?: string, folder?: string) {
 }
 
 async function getNoArticlesMessage(opts: SmallblogConfig) {
-  const { noArticlesMessage, postsFolder, pagesFolder } = opts;
+  const { noArticlesMessage, postsFolder } = opts;
 
   if (noArticlesMessage) {
     return noArticlesMessage;
   }
 
-  const baseMessage = `<p>You have no articles yet, you can add them by creating a folder <code>${postsFolder}</code> and adding markdown files in it. Don't forget to also add a <code>${pagesFolder}</code> folder if you want to add custom pages inside your navbar.</p><p>Read the README for more informations.</p>`;
+  const baseMessage = `<p>You have no articles yet, you can add them by creating a folder <code>${postsFolder}</code> and adding markdown files in it.</p><p>Read the README for more informations.</p>`;
 
   const writePermission = await Deno.permissions.query({
     name: "write",

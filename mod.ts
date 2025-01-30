@@ -1,6 +1,7 @@
 import type { SmallblogConfig } from "./types.ts";
 import { createServer } from "./server.tsx";
 import { createCli } from "./cli.ts";
+import * as path from "@std/path";
 
 export type { SmallblogConfig };
 
@@ -17,9 +18,10 @@ export class Smallblog {
    */
   constructor(config: Partial<SmallblogConfig> = {}) {
     const {
-      postsFolder = "data/posts/",
-      pagesFolder = "data/pages/",
+      postsFolder = "posts/",
+      dataFolder = "data/",
       favicon,
+      nav = [],
       siteTitle = "Smallblog",
       siteDescription = `The blog: ${siteTitle}`,
       indexTitle,
@@ -33,8 +35,9 @@ export class Smallblog {
 
     this.server = createServer({
       postsFolder,
-      pagesFolder,
+      dataFolder,
       favicon,
+      nav,
       siteTitle,
       siteDescription,
       indexSubtitle,
@@ -45,7 +48,7 @@ export class Smallblog {
       customBodyScript,
       customHeaderScript,
     });
-    this.cli = createCli(postsFolder);
+    this.cli = createCli(path.join(dataFolder, postsFolder));
   }
 
   /**
