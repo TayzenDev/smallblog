@@ -15,6 +15,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## 1.3.0 - 2025-01-31
+
+### Added
+
+- File-based routing
+
+### Changed
+
+- New way to configure the navbar
+
+### Removed
+
+- Old custom site folder
+- Some articles parameters dedicated to custom pages have been removed (order, redirect)
+
 ## 1.2.2 - 2025-01-28
 
 ### Added

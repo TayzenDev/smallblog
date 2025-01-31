@@ -28,7 +28,7 @@ A demo is available at this URL: [Smallblog Demo](https://smallblog-demo.tayzen.
 Create a new directory in your smallweb folder (or in any folder where you want to host the Deno project), add a `main.tsx` and paste this content in it:
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.3.0";
 
 export default new Smallblog();
 ```
@@ -137,14 +137,30 @@ I configured [plausible.io](https://plausible.io) in my personal blog. They are 
 
 ### Adding custom pages
 
-Smallblog enables you to add custom pages to your blog. By default, they are located in the `data/pages` folder. You can add your pages by creating a markdown file in this folder, it would be render the same way as the posts except there is no metadata.
+Smallblog uses file-based routing to serve your files. If you want to add a page which is not a post, you can create a file anywhere under your `dataFolder` (`data/` by default). Your markdown files will be rendered as HTML exactly the same way as your posts.
 
-These new pages are accessible from the navbar (as you can see in the screenshots at the start of this document).
+### Modifying the navbar
 
-2 metadata are exclusive to the custom pages:
+Your navbar entries are defined in your configuration. By default, it's an empty list, you can add either an URL of the blog or an external URL. The syntax is the following:
 
-- `redirect`: This will create a link to another website in the navbar (as you can see in the demo with the "GitHub" and "JSR" entries)
-- `order`: This is used to define the order in which the links are displayed in the navbar (in the demo/the screenshot GitHub have `order:1`, and JSR have a value of 2, contact has no value, so it is at the end)
+```ts
+export default new Smallblog({
+  // the other parameters
+  navbar: [
+    {
+      name: "Contact",
+      path: "/contact",
+    },
+    {
+      name: "Github",
+      path: "https://github.com/tayzendev/smallblog",
+    },
+  ],
+  // ...
+});
+```
+
+In this example you can see a list of objects with the `name` and `path` attributes. As you probably guessed, `name` is the name of the entry which will be displayed in the navbar and `path` is the URL of the entry. The contact page is a page from the blog, it corresponds to a Markdown file located at the root of the `dataFolder` named `contact` (more details are available in the previous section). The GitHub page is a link to an external site, as you can see, any valid URL can be set inside the path field.
 
 ## Detailed installation
 
@@ -165,7 +181,7 @@ These new pages are accessible from the navbar (as you can see in the screenshot
 Minimal `main.tsx` to quick-start a project (as shown above):
 
 ```tsx
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.3.0";
 
 export default new Smallblog();
 ```
@@ -174,7 +190,7 @@ A `main.tsx` with more parameters:
 
 ```tsx
 import { html } from "hono/html";
-import { Smallblog } from "jsr:@tayzendev/smallblog@1.2.2";
+import { Smallblog } from "jsr:@tayzendev/smallblog@1.3.0";
 
 const customBodyScript = await html`<script
   defer
