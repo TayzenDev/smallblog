@@ -168,15 +168,17 @@ export function createServer(config: SmallblogConfig) {
 
     const basename = path.basename(filename);
     const dirname = path.dirname(filename);
+    const matchingFolder = path.join(config.dataFolder, dirname);
 
     return servePage(
       c,
       basename,
-      path.join(config.dataFolder, dirname),
+      matchingFolder,
       faviconIsUrl,
       customPages,
       config,
-      false,
+      path.resolve(matchingFolder) === path.resolve(postsFolder) ||
+        matchingFolder === postsFolder,
     );
   });
 
